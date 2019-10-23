@@ -1,0 +1,9 @@
+---
+
+virtual_hosts:
+  - virtual_host: "recette.wiki"
+    config: "recette-wiki"
+  - virtual_host: "politique.wiki"
+    config: "politique-wiki"
+  - virtual_host: "devops.wiki"
+    config: "devops-wiki"

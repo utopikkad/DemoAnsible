@@ -1,0 +1,49 @@
+---
+
+- hosts: wiki
+  tasks:
+    - name: Install Apache
+      apt:
+        name: apache2
+        state: present
+    - name: Install PHP 7.0
+      apt:
+        name: php7.3
+        state: present
+    - name: Install tar
+      apt:
+        name: tar
+        state: present
+    - name: Checking /usr/src/dokuwiki
+      file:
+        path: /usr/src/dokuwiki
+        state: directory
+    - name: Download & Unpack DokuWiki
+      unarchive: 
+        src: dokuwiki.tgz
+        dest: /usr/src/dokuwiki
+        extra_opts:
+          - --strip-components=1
+
+# Virtual Host Setup
+    - name: Setting up /var/www
+      file:
+        path: "/var/www"
+        state: directory
+    - name: Setting up /etc/apache2/site-available
+      file:
+        path: "/etc/apache2/site-available"
+        state: directory
+    - name: "Setting up virtual hosts"
+      include_tasks: setup_virtual_hosts.yml
+      loop: "{{ virtual_hosts }}"
+    - name: Starting up
+      service:
+        name: apache2
+        state: restarted    
+    - name: Setting up rights for /var/www
+      file:
+        path: "/var/www"
+        group: www-data
+        owner: www-data
+        recurse: yes

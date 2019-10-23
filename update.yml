@@ -1,0 +1,18 @@
+---
+
+- hosts: all
+  tasks:
+    - name: "Update SSH"
+      apt:
+        name: openssh-server
+        state: latest
+        update_cache: yes
+
+- hosts: app
+  tasks:
+    - name: "Update Apache"
+      apt:
+        name: apache2
+        state: latest
+        update_cache: yes
+
