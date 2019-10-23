@@ -2,23 +2,18 @@
 
 - hosts: wiki
   tasks:
-    - name: Install Apache
+    - name: "Install apache2, php7.3, tar"
       apt:
-        name: apache2
+        name: 
+          - apache2
+          - php7.3
+          - tar
         state: present
-    - name: Install PHP 7.0
-      apt:
-        name: php7.3
-        state: present
-    - name: Install tar
-      apt:
-        name: tar
-        state: present
-    - name: Checking /usr/src/dokuwiki
+    - name: "Checking /usr/src/dokuwiki"
       file:
         path: /usr/src/dokuwiki
         state: directory
-    - name: Download & Unpack DokuWiki
+    - name: "Download & Unpack DokuWiki"
       unarchive: 
         src: dokuwiki.tgz
         dest: /usr/src/dokuwiki
@@ -30,9 +25,9 @@
       file:
         path: "/var/www"
         state: directory
-    - name: Setting up /etc/apache2/site-available
+    - name: Setting up /etc/apache2/sites-available
       file:
-        path: "/etc/apache2/site-available"
+        path: "/etc/apache2/sites-available"
         state: directory
     - name: "Setting up virtual hosts"
       include_tasks: setup_virtual_hosts.yml

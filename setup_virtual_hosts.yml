@@ -1,4 +1,4 @@
-- name: "Setting up {{ item.virtual_host }} for"
+- name: "Setting up /var/www/{{ item.virtual_host }}"
   file:
     path: "/var/www/{{ item.virtual_host }}"
     state: directory
@@ -9,7 +9,7 @@
   delegate_to: "{{ inventory_hostname }}"
 - name: "Setting up Apache conf for {{ item.config }}"
   template:
-    src: "templates/etc.apache2.site-available.HOST.conf.j2"
+    src: "templates/etc.apache2.sites-available.HOST.conf.j2"
     dest: "/etc/apache2/sites-available/{{ item.config }}.conf"
 - name: A2ensite
   command: "a2ensite {{ item.config }}"
